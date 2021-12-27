@@ -103,6 +103,10 @@
                               @endforeach
                                 <tr>
                                   <td colspan="2"><center><h3><b>SUMA:</b></h3><center></td>
+                                  @php
+                                  $sumnet=round($sumnet, 2); 
+                                  $sumgross=round($sumgross, 2);
+                                  @endphp
                                   
                                   <td><h3><b>{{ $sumnet }} zł</b></h3></td>
                                   <td><h3><b>{{ $sumgross }} zł</b></h3></td>
@@ -118,10 +122,12 @@
                       <tr>
                           @php
                               $values=array(0 => $books, 1 => $cleaning, 2 => $bread, 3 => $fruits, 4 => $vegetables, 5 => $dairy);
+                              $valuesmax = max($values);
                               $valuesgross=array(0 => $booksgross, 1 => $cleaninggross, 2 => $breadgross, 3 => $fruitsgross, 4 => $vegetablesgross, 5 => $dairygross);
+                              $valuesgrossmax = max($valuesgross);
                               for ($i = 0; $i < count($values); $i++) {                                   
-                                  $height = $values[$i]/10;  
-                                  $heightgross = $valuesgross[$i]/10;   
+                                  $height = $values[$i]*100/$valuesmax*5;  
+                                  $heightgross = $valuesgross[$i]*100/$valuesgrossmax*5;   
                                   if($i == 0)
                                   { $name = "Książki";}   
                                   else if($i == 1)
@@ -133,9 +139,11 @@
                                   else if($i == 4)
                                   { $name = "Warzywa";}
                                   else if($i == 5) 
-                                  { $name = "Nabiał";}                               
-                                  echo "<td style='font-size: small'>".$values[$i]."zł<div id='fullbar'><div class='bar' style='height:".$height."'></div></div>".$name." netto </td>";
-                                  echo "<td style='font-size: small'>".$valuesgross[$i]."zł<div id='fullbar'><div class='bargross' style='height:".$heightgross."'></div></div>".$name." brutto </td>";
+                                  { $name = "Nabiał";}   
+                                  $show=round($values[$i], 2); 
+                                  $showgross=round($valuesgross[$i], 2);                             
+                                  echo "<td style='font-size: small'>".$show."zł<div id='fullbar'><div class='bar' style='height:".$height."'></div></div>".$name." netto </td>";
+                                  echo "<td style='font-size: small'>".$showgross."zł<div id='fullbar'><div class='bargross' style='height:".$heightgross."'></div></div>".$name." brutto </td>";
                               }
                           @endphp
                         </tr>
